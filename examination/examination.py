@@ -83,36 +83,77 @@ class Maze:
         no_of_rows = self.nx
         no_of_cols = self.ny
 
-        html = ''
-
+        body = '<div class="container">'
+            
         for y in range(no_of_cols):
             border = ''
+            row = '<div class="row">'
             for x in range(no_of_rows):
                 if self.maze_map[x][y].walls['N']:
-                    border = '1'
+                    border = 'border-top'
                 else:
-                    border = '0'
+                    border = 'border-top-0'
                 
                 if self.maze_map[x][y].walls['E']:
-                    border += ' 1'
+                    border += ' border-right'
                 else:
-                    border += ' 0'
+                    border += ' border-right-0'
 
                 if self.maze_map[x][y].walls['S']:
-                    border += ' 1'
+                    border += ' border-bottom'
                 else:
-                    border += ' 0'
+                    border += ' border-bottom-0'
 
                 if self.maze_map[x][y].walls['W']:
-                    border += ' 1'
+                    border += ' border-left'
                 else:
-                    border += ' 0'
+                    border += ' border-left-0'
                 
-                div = '<div style="border-width: ' + border + '"></div>'
+                div = '<div class="col ' + border + '"></div>'
 
-                html += div
+                row += div
 
-        return print(html)
+            body = body + row + '</div>'
+
+        body += '</div>'
+
+        html = """
+        <!DOCTYPE html>
+            <html lang="en">
+                <head>
+                    <meta charset="UTF-8" />
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                    <title>Document</title>
+                    <link
+                        rel="stylesheet"
+                        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+                        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+                        crossorigin="anonymous"
+                    />
+                    <style>
+                        body {
+                            background: red;
+                            padding: 0 !important;
+                            margin: 0 !important;
+                        }
+                        .col {
+                            border-color: black;
+                            height: 40px;
+                            background-color: blue;
+                            padding: 0 !important;
+                            margin: 0 !important;
+                        }
+                    </style>
+                </head>
+                <body>
+        """ + body + "</body></html>"
+        
+        Html_file= open("index.html","w")
+        Html_file.write(html)
+        Html_file.close()
+
+        return print('success?')
 
     def find_valid_neighbours(self, cell):
         """Return a list of unvisited neighbours to cell."""
